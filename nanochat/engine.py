@@ -7,6 +7,8 @@ Everything works around token sequences:
 
 Notes:
 - The engine knows nothing about tokenization, it's purely token id sequences.
+
+The whole thing is made as efficient as possible.
 """
 
 import torch
@@ -220,10 +222,10 @@ class Engine:
         # 4) Main generation loop
         num_generated = 0
         while True:
-            
+            # Stop condition: we've reached max tokens
             if max_tokens is not None and num_generated >= max_tokens:
                 break
-            
+            # Stop condition: all rows are completed
             if all(state.completed for state in row_states):
                 break
 
